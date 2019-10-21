@@ -73,7 +73,7 @@ classdef PaillierCrypto < handle
                     warning(['BitLength parameter is not of 2^N. This may cause some trouble.' newline 'Suggested fix: [PaillierObject].changeBitLength(NEW_VALUE)']);
                 end
             end
-            obj.BigIntOne = bi(1);
+            obj.BigIntOne = obj.bi(1);
         end
         
         function changeBitLength(obj,len) 
