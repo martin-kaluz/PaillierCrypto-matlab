@@ -155,6 +155,11 @@ classdef PaillierCrypto < handle
             % Usage:
             %       decrypted = my_paillier.decrypt(encrypted);
             
+            if(isempty(obj.PrivateKey)&&isempty(obj.PublicKey))
+                warning(['First, generate public/private key pair.' newline 'see: <a href="matlab: help PaillierCrypto.generateKeys">PaillierCrypto.generateKeys()</a>.'])
+                decrypted = -1;
+                return
+            end
             decrypted = encrypted ...
                 .modPow(obj.PrivateKey.lambda,obj.PublicKey.n2) ...
                 .subtract(obj.BigIntOne) ...
@@ -171,6 +176,14 @@ classdef PaillierCrypto < handle
             % Usage:
             %       encrypted = my_paillier.encrypt(message);
             
+            if(isempty(obj.PrivateKey)&&isempty(obj.PublicKey))
+                warning(['First, generate public/private key pair:' ... 
+                    newline 'see: <a href="matlab: help PaillierCrypto.generateKeys">PaillierCrypto.generateKeys()</a>.' ...
+                    newline 'or define custom public key:' ...
+                    newline 'see: <a href="matlab:help PaillierCrypto.setPublicKey">PaillierCrypto.setPublicKey</a>']);
+                encrypted = -1;
+                return
+            end
             while 1
                 r = obj.randomBigIntBetween(obj.bi(2),obj.PublicKey.n);            
                 if(nargin>2&&strcmpi(varargin{1},'strict'))
